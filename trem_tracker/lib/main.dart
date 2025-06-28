@@ -98,7 +98,7 @@ class _MapScreenState extends State<MapScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<TremPositionProvider>(context, listen: false).fetchPosition();
-      _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
+      _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
         Provider.of<TremPositionProvider>(context, listen: false).fetchPosition();
       });
     });
