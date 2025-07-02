@@ -51,7 +51,6 @@ class TremPositionProvider with ChangeNotifier {
     try {
       final response = await http.get(
         Uri.parse('http://127.0.0.1:3000/posicao'),
-
       );
 
       if (response.statusCode == 200) {
@@ -75,7 +74,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Trem Tracker',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xFF1B1F1D),
+        primarySwatch: Colors.green,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF1E352F),
+          foregroundColor: Colors.white,
+        ),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.green,
+          brightness: Brightness.dark,
+        ),
       ),
       home: const MapScreen(),
     );
@@ -135,7 +144,7 @@ class _MapScreenState extends State<MapScreen> {
               snippet:
                   'Status: ${position.status}\nPróximo: ${position.proximoPonto}\nProgresso: ${position.progresso.toStringAsFixed(2)}%',
             ),
-            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
           );
 
           return Stack(
@@ -143,7 +152,7 @@ class _MapScreenState extends State<MapScreen> {
               GoogleMap(
                 initialCameraPosition: CameraPosition(
                   target: LatLng(position.latitude, position.longitude),
-                  zoom: 12,
+                  zoom: 13,
                 ),
                 markers: {marker},
                 onMapCreated: (controller) {
@@ -155,20 +164,34 @@ class _MapScreenState extends State<MapScreen> {
                 left: 20,
                 right: 20,
                 child: Card(
+                  color: const Color(0xFF26332E),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  elevation: 8,
                   child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text('Status: ${position.status}',
-                            style: const TextStyle(fontWeight: FontWeight.bold)),
-                        Text('Próximo ponto: ${position.proximoPonto}'),
-                        Text('Progresso: ${position.progresso.toStringAsFixed(2)}%'),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.white)),
+                        const SizedBox(height: 4),
+                        Text('Próximo ponto: ${position.proximoPonto}',
+                            style: const TextStyle(color: Colors.white70)),
+                        const SizedBox(height: 4),
+                        Text('Progresso: ${position.progresso.toStringAsFixed(2)}%',
+                            style: const TextStyle(color: Colors.white70)),
+                        const SizedBox(height: 8),
                         LinearProgressIndicator(
                           value: position.progresso / 100,
-                          backgroundColor: Colors.grey[300],
-                          color: Colors.blue,
+                          backgroundColor: Colors.white24,
+                          color: Colors.greenAccent,
+                          minHeight: 6,
                         ),
                       ],
                     ),
